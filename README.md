@@ -1,7 +1,8 @@
-Command and Behavioral Patterns Repository
+#Behavioral Patterns Repository
+
 Welcome to the Command and Behavioral Patterns Repository! This repository contains implementations of various behavioral design patterns in software engineering. Each project demonstrates a unique pattern, with a clear structure, detailed code, and usage examples. This repository is ideal for learning, understanding, and applying design patterns in real-world scenarios.
 
-Table of Contents
+##Table of Contents
 Overview
 Projects
 ChainOfResponsibilityApp
