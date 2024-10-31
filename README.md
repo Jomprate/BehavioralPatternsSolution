@@ -1,96 +1,172 @@
-#Behavioral Patterns Repository
+# Design Patterns: Chain of Responsibility, Command, & Observer
 
-Welcome to the Command and Behavioral Patterns Repository! This repository contains implementations of various behavioral design patterns in software engineering. Each project demonstrates a unique pattern, with a clear structure, detailed code, and usage examples. This repository is ideal for learning, understanding, and applying design patterns in real-world scenarios.
+## 📋 Overview
 
-##Table of Contents
-Overview
-Projects
-ChainOfResponsibilityApp
-CommandPatternApp
-ObserverPatternApp
-Usage
-Requirements
-Getting Started
-Contributing
-License
-Overview
-Each project in this repository implements a specific behavioral design pattern. Behavioral patterns define how objects communicate and interact with each other in a flexible and scalable way. Understanding these patterns is crucial for building maintainable and robust systems, as they provide solutions for managing complex interactions between classes and objects.
+This repository contains practical implementations of three behavioral design patterns:
 
-Projects
-1. ChainOfResponsibilityApp
-Pattern: Chain of Responsibility
-Description: This project demonstrates the Chain of Responsibility pattern, which allows an object to pass a request along a chain of handlers. Each handler in the chain can either process the request or pass it to the next handler in the chain. This pattern is beneficial when you have multiple handlers that can process a request and want to decouple the sender and receiver of the request.
+1. **Chain of Responsibility Pattern**
+2. **Command Pattern**
+3. **Observer Pattern**
 
-Key Components:
+These patterns are commonly used to manage the interaction and communication between objects in a software system, making it more modular, maintainable, and scalable. Each implementation provided here demonstrates the core concepts of each pattern in a clear and structured way.
 
-ISupportHandler (Interface): Defines methods for handling a request and setting the next handler in the chain.
-BasicSupportHandler, IntermediateSupportHandler, AdvancedSupportHandler (Concrete Classes): Each handler represents a level of support that processes a request if it matches its criteria. If unable to handle the request, it passes it to the next handler in the chain.
-Program.cs: The main entry point where the chain of responsibility is set up, and different requests are tested.
-Use Case: In a support system, this pattern is used to escalate support requests through different levels (basic, intermediate, advanced) based on the complexity of the issue. Each level of support has its own handler, and requests are passed up the chain until they find a handler capable of resolving them.
+---
 
-2. CommandPatternApp
-Pattern: Command
-Description: This project showcases the Command pattern, which encapsulates a request as an object, allowing for parameterization of clients with different requests, queuing of requests, and providing a mechanism for logging and undoable operations. The Command pattern decouples the classes that invoke operations from the classes that perform these operations.
+## 🧩 Chain of Responsibility Pattern
 
-Key Components:
+The **Chain of Responsibility Pattern** allows a request to pass along a chain of handlers. Each handler can either process the request or pass it to the next handler in the chain. This pattern helps decouple the sender and receiver of a request and provides flexibility in request processing.
 
-ICommand (Interface): Defines the Execute and Undo methods for all command classes.
-AccessResourceCommand, ModifyResourceCommand, UndoAccessResourceCommand, UndoModifyResourceCommand (Concrete Classes): Each command represents a specific action, such as accessing or modifying a resource. Each command is self-contained and capable of executing and undoing the action.
-ResourceManager (Receiver): This class performs the actual operations, such as accessing or modifying resources. The commands interact with this class to perform their actions.
-CommandInvoker: Manages command execution and undo operations. It keeps a history of executed commands in a stack, allowing commands to be undone in the reverse order of execution.
-Program.cs: The main entry point where commands are created, executed, and managed by the invoker. Demonstrates command execution and undo functionality.
-Use Case: In a resource management system, this pattern is useful for implementing actions that can be undone, such as granting access to a resource or modifying it. With the invoker and receiver setup, commands can be managed in a consistent and reversible manner, making the system more flexible and user-friendly.
+### 🔨 Implementation Details
+In this implementation, each handler represents a level of support in a support system (e.g., basic, intermediate, advanced). If a handler cannot process the request, it passes it to the next handler in the chain until one is able to handle it.
 
-3. ObserverPatternApp
-Pattern: Observer
-Description: This project demonstrates the Observer pattern, which defines a one-to-many dependency between objects, where a change in the state of one object (the subject) automatically notifies and updates all of its dependents (observers). This pattern is commonly used when changes to an object need to be broadcasted to a set of dependent objects without tightly coupling them.
+### 📝 Code Example:
+```csharp
+var handler = new BasicSupportHandler();
+handler.SetNext(new IntermediateSupportHandler())
+       .SetNext(new AdvancedSupportHandler());
 
-Key Components:
-
-IObserver (Interface): Defines the Update method that will be called to notify observers of changes in the subject.
-ISubject (Interface): Defines methods to add, remove, and notify observers.
-AnnouncementChannel (Concrete Subject): Implements ISubject and keeps track of a list of observers. When an announcement is published, all registered observers are notified.
-StudentObserver (Concrete Observer): Implements IObserver and reacts to updates from AnnouncementChannel.
-Program.cs: The main entry point where the AnnouncementChannel subject is created, observers are registered, and announcements are published, demonstrating how observers are notified.
-Use Case: In a notification system, the Observer pattern can be used to broadcast announcements to multiple subscribers. For instance, in an educational platform, students (observers) can subscribe to an announcement channel, where they will receive notifications of new announcements published by the platform.
-
-Usage
-Each project is a standalone console application designed to demonstrate the pattern it implements. To run a project, simply open it in your IDE and execute Program.cs. The console output will display how the pattern handles different requests, operations, and notifications.
-
-Running Each Project
-ChainOfResponsibilityApp:
-
-Observe how requests are handled by different levels of support handlers in the chain.
-Modify Program.cs to add or test more request types if desired.
-CommandPatternApp:
-
-Test how commands are executed and undone using the CommandInvoker.
-Modify Program.cs to add more commands or adjust the invoker’s behavior as needed.
-ObserverPatternApp:
-
-Add more observers or modify the announcements in Program.cs to test how observers receive notifications from the subject.
-Requirements
-.NET 5+ (for C# projects)
-Visual Studio 2022 or any compatible C# IDE
-Getting Started
-Clone the Repository:
-
+handler.HandleRequest("Intermediate Support Required");
+💻 How to Run
+Navigate to the ChainOfResponsibilityApp directory:
 bash
+Always show details
+
+Copy code
+cd ChainOfResponsibilityApp
+Run the application to observe how requests are processed by different handlers.
+🎨 Command Pattern
+The Command Pattern encapsulates a request as an object, allowing for parameterization, queuing, and logging of requests, and enabling undoable operations. This pattern decouples the classes that invoke operations from those that perform them.
+
+🔨 Implementation Details
+This implementation uses commands to control actions on a resource. Commands like AccessResourceCommand and ModifyResourceCommand interact with a ResourceManager, executing specific actions and supporting undo operations.
+
+📝 Code Example:
+csharp
+Always show details
+
+Copy code
+var resourceManager = new ResourceManager();
+var invoker = new CommandInvoker();
+
+var accessCommand = new AccessResourceCommand(resourceManager);
+var modifyCommand = new ModifyResourceCommand(resourceManager);
+
+invoker.ExecuteCommand(accessCommand);
+invoker.ExecuteCommand(modifyCommand);
+invoker.UndoLastCommand();
+💻 How to Run
+Navigate to the CommandPatternApp directory:
+bash
+Always show details
+
+Copy code
+cd CommandPatternApp
+Run the application to see commands being executed and undone.
+📣 Observer Pattern
+The Observer Pattern defines a one-to-many dependency between objects. When one object (the subject) changes state, it automatically notifies and updates all its dependents (observers). This pattern is ideal for implementing event-driven architectures.
+
+🔨 Implementation Details
+In this implementation, AnnouncementChannel acts as the subject, which maintains a list of observers (e.g., StudentObserver). When an announcement is published, all registered observers are notified and can react to the update.
+
+📝 Code Example:
+csharp
+Always show details
+
+Copy code
+var channel = new AnnouncementChannel();
+var student1 = new StudentObserver("Alice");
+var student2 = new StudentObserver("Bob");
+
+channel.Attach(student1);
+channel.Attach(student2);
+channel.PublishAnnouncement("New Assignment Released");
+
+channel.Detach(student1);
+channel.PublishAnnouncement("Assignment Deadline Updated");
+💻 How to Run
+Navigate to the ObserverPatternApp directory:
+bash
+Always show details
+
+Copy code
+cd ObserverPatternApp
+Run the application to observe how changes in the subject affect all observers.
+📂 Project Structure
+This repository is organized into three main directories, each demonstrating a different behavioral pattern.
+
+🗂 Chain of Responsibility Pattern
+markdown
+Always show details
+
+Copy code
+/ChainOfResponsibilityApp
+    /Handlers
+        BasicSupportHandler.cs
+        IntermediateSupportHandler.cs
+        AdvancedSupportHandler.cs
+    Program.cs
+🗂 Command Pattern
+markdown
+Always show details
+
+Copy code
+/CommandPatternApp
+    /Commands
+        AccessResourceCommand.cs
+        ModifyResourceCommand.cs
+    /Receivers
+        ResourceManager.cs
+    Program.cs
+🗂 Observer Pattern
+markdown
+Always show details
+
+Copy code
+/ObserverPatternApp
+    /Observers
+        IObserver.cs
+        StudentObserver.cs
+    /Subjects
+        ISubject.cs
+        AnnouncementChannel.cs
+    Program.cs
+🚀 How to Get Started
+Prerequisites
+.NET SDK installed
+Visual Studio 2022 or any compatible IDE
+Steps to Run:
+Clone the repository:
+bash
+Always show details
+
 Copy code
 git clone https://github.com/yourusername/behavioral-patterns-repository.git
 cd behavioral-patterns-repository
-Open the Solution in Visual Studio or another compatible IDE.
+Open the solution in Visual Studio or your preferred IDE.
+Navigate to the folder of the pattern you'd like to run:
+For Chain of Responsibility, navigate to /ChainOfResponsibilityApp
+For Command, navigate to /CommandPatternApp
+For Observer, navigate to /ObserverPatternApp
+Run the application to see the pattern in action.
+🧠 Concepts Explained
+Chain of Responsibility Pattern
+Allows request processing to pass through multiple handlers.
+Useful for support systems, event handling, or command processing.
+Command Pattern
+Encapsulates actions as objects, allowing them to be parameterized, queued, or undone.
+Ideal for implementing reversible operations and request logging.
+Observer Pattern
+Notifies multiple objects of state changes in a subject.
+Commonly used in event-driven programming, such as in UI frameworks.
+📚 References
+Chain of Responsibility Pattern - Wikipedia
+Command Pattern - Wikipedia
+Observer Pattern - Wikipedia
+🤝 Contributions
+Feel free to fork this repository, submit issues, and make pull requests to improve the code or provide alternative implementations!
 
-Run Each Project:
+📄 License
+This repository is licensed under the MIT License. See the LICENSE file for more details.
 
-Navigate to each project and run Program.cs to see the patterns in action.
-Contributing
-Contributions are welcome! If you have any improvements or additional behavioral patterns to add, please open a pull request with a description of your changes.
-
-Fork the repository
-Create a new branch: git checkout -b feature/your-feature
-Commit your changes: git commit -m 'Add your feature'
-Push to the branch: git push origin feature/your-feature
-Open a pull request
-License
-This repository is licensed under the MIT License. See LICENSE for more information.
+👨‍💻 Author
+Your Name - GitHub Profile """
