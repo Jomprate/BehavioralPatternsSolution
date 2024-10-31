@@ -145,7 +145,7 @@ This repository is organized into directories for each design pattern, with rele
 ### Steps to Run:
 1. Clone the repository:
    ```bash
-   git clone https://github.com/jomprate/behavioral-patterns-repository.git
+   git clone https://github.com/jomprate/BehavioralPatternsSolution.git
    cd behavioral-patterns-repository
    ```
 2. Open the solution in Visual Studio or your preferred IDE.
