@@ -1,4 +1,6 @@
-Design Patterns: Chain of Responsibility, Command, & Observer
+#Design Patterns: Chain of Responsibility, Command, & Observer
+
+
 📋 Overview
 This repository contains practical implementations of three behavioral design patterns:
 
