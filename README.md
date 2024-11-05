@@ -186,5 +186,5 @@ This repository is licensed under the MIT License. See the `LICENSE` file for de
 
 ## 👨‍💻 Author
 
-**Your Name**  
+**SSDevop**  
 [GitHub Profile](https://github.com/jomprate)
